@@ -51,7 +51,7 @@ namespace TechBot
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
                             var reply = ((Activity)iConversationUpdated).CreateReply($"Hey Welcome to search chatbot.");
-                            await connector.Conversations.ReplyToActivityAsync(reply);
+                            //await connector.Conversations.ReplyToActivityAsync(reply);
                         }
                     }
                 }
