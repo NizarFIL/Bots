@@ -115,7 +115,6 @@
     <Compile Include="Dialogs\MailboxQuotaDialog.cs" />
     <Compile Include="Dialogs\OnlineMeetingDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
-    <Compile Include="Dialogs\SharePointQuotaDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

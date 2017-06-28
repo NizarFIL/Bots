@@ -13,15 +13,6 @@ namespace TechBot.Dialogs
     public class RootDialog : LuisDialog<object>
     {
 
-        //private const string EntityMailboxQuota = "MailboxQuota";
-
-       // private const string EntitySharePointSiteQuota = "SharePointSiteQuota";
-       
-        //private async Task MessageReceivedAsync(IDialogContext context)
-        //{
-
-        //   await context.PostAsync("Hi, how can I help you today?");
-        //}
 
         [LuisIntent("None")]
         [LuisIntent("")]
@@ -35,7 +26,6 @@ namespace TechBot.Dialogs
         public async Task IncreaseQuota(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         {
             var message = await activity;
-           // await context.PostAsync("Hi, how can I help you today?");
 
             EntityRecommendation quotaEntity;
 
@@ -44,14 +34,8 @@ namespace TechBot.Dialogs
                 context.Call(new MailboxQuotaDialog(), ResumeAfterOptionDialog);
             }
 
-            if (result.TryFindEntity("SharePointSiteQuota", out quotaEntity))
-            {
-                context.Call(new OnlineMeetingDialog(), this.ResumeAfterOptionDialog);
-            }
-
         }
 
-       
 
         [LuisIntent("Access.OnlineMeetingService")]
         public async Task AccessOnlineMeetingService(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
