@@ -49,7 +49,7 @@ namespace TechBot
                     foreach (var member in iConversationUpdated.MembersAdded ?? System.Array.Empty<ChannelAccount>())
                     {
                         // if the bot is added, then   
-                        if (member.Id == iConversationUpdated.Recipient.Id)
+                        if (member.Id != iConversationUpdated.Recipient.Id)
                         {
                             string userName = member.Name;
                             string firstName = userName.Substring(userName.LastIndexOf(',') + 1);
