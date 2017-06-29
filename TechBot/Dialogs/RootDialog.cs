@@ -44,7 +44,7 @@ namespace TechBot.Dialogs
         {
             var message = await activity;
            // await context.PostAsync("You want to access an online meeting");
-            await context.PostAsync($"Please wait while I check your mailbox details...");
+           // await context.PostAsync($"Please wait while I check your mailbox details...");
 
             //Get Quota
             var client = new WebClient();
