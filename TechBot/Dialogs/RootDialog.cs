@@ -30,7 +30,7 @@ namespace TechBot.Dialogs
 
             //***************************
 
-            context.Call(new MailboxQuotaDialog(), ResumeAfterOptionDialog);
+            //context.Call(new MailboxQuotaDialog(), ResumeAfterOptionDialog);
 
             //***************************
             context.Wait(this.MessageReceived);
