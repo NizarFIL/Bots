@@ -1,17 +1,20 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
-using System.Web.Services.Description;
-using System;
-
-namespace TechBot
+﻿namespace TechBot
 {
+    using System;
+    using System.Diagnostics;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Web.Configuration;
+    using System.Web.Http;
+    using Dialogs;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
+
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -20,17 +23,18 @@ namespace TechBot
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                await Conversation.SendAsync(activity, () => new RootDialog());
             }
             else
             {
-                HandleSystemMessage(activity);
+                this.HandleSystemMessage(activity);
             }
+
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
 
-        private async Task HandleSystemMessage(Activity message)
+        private Activity HandleSystemMessage(Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
             {
@@ -42,23 +46,6 @@ namespace TechBot
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
-                IConversationUpdateActivity iConversationUpdated = message as IConversationUpdateActivity;
-                if (iConversationUpdated != null)
-                {
-                    ConnectorClient connector = new ConnectorClient(new System.Uri(message.ServiceUrl));
-                    foreach (var member in iConversationUpdated.MembersAdded ?? System.Array.Empty<ChannelAccount>())
-                    {
-                        // if the bot is added, then   
-                        if (member.Id != iConversationUpdated.Recipient.Id)
-                        {
-                            string userName = member.Name;
-                            string firstName = userName.Substring(userName.LastIndexOf(',') + 1);
-                            var reply = ((Activity)iConversationUpdated).CreateReply($"Hi {firstName}, I'm Botty. How can I help you today?");
-                            await connector.Conversations.ReplyToActivityAsync(reply);
-                        }
-                    }
-                }
-
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
@@ -72,6 +59,8 @@ namespace TechBot
             else if (message.Type == ActivityTypes.Ping)
             {
             }
+
+            return null;
         }
     }
 }
