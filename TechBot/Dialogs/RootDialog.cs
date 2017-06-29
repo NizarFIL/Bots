@@ -43,7 +43,7 @@ namespace TechBot.Dialogs
         public async Task AccessOnlineMeetingService(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         {
             var message = await activity;
-            await context.PostAsync("You want to access an online meeting");
+           // await context.PostAsync("You want to access an online meeting");
             await context.PostAsync($"Please wait while I check your mailbox details...");
 
             //Get Quota
