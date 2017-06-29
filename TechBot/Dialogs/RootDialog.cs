@@ -4,6 +4,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using System.Net;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace TechBot.Dialogs
 {
@@ -41,7 +44,23 @@ namespace TechBot.Dialogs
         {
             var message = await activity;
             await context.PostAsync("You want to access an online meeting");
-            context.Call(new MailboxQuotaDialog(), ResumeAfterOptionDialog);
+            await context.PostAsync($"Please wait while I check your mailbox details...");
+
+            //Get Quota
+            var client = new WebClient();
+            var url = "https://bot.tadpolelab.com:8443/SmartObjectServices/rest/Test/TestingSMO/Load?ID=" + activity.Text;
+
+            client.Headers[HttpRequestHeader.ContentType] = "application/xml";
+            client.Headers[HttpRequestHeader.Authorization] = "Basic azItYm90XGxvY2FsYWRtaW46SzI0ZG0xbk4xejRyIQ=="; //k2-bot\localadmin; 
+
+            var responseString = client.DownloadString(url);
+
+            var xDoc = XDocument.Parse(responseString);
+
+            var name = (from e in xDoc.Descendants("Name") select e.Value).SingleOrDefault();
+
+            // return our reply to the user
+            await context.PostAsync($"The name is {name}");
             context.Wait(this.MessageReceived);
         }
 
