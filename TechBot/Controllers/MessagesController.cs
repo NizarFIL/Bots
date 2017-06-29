@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Web.Services.Description;
+using System;
 
 namespace TechBot
 {
@@ -29,7 +30,7 @@ namespace TechBot
             return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private async Task HandleSystemMessage(Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
             {
@@ -41,6 +42,23 @@ namespace TechBot
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
+                IConversationUpdateActivity iConversationUpdated = message as IConversationUpdateActivity;
+                if (iConversationUpdated != null)
+                {
+                    ConnectorClient connector = new ConnectorClient(new System.Uri(message.ServiceUrl));
+                    foreach (var member in iConversationUpdated.MembersAdded ?? System.Array.Empty<ChannelAccount>())
+                    {
+                        // if the bot is added, then   
+                        if (member.Id == iConversationUpdated.Recipient.Id)
+                        {
+                            string userName = member.Name;
+                            string firstName = userName.Substring(userName.LastIndexOf(',') + 1);
+                            var reply = ((Activity)iConversationUpdated).CreateReply($"Hi {firstName}, I'm Botty. How can I help you today?");
+                            await connector.Conversations.ReplyToActivityAsync(reply);
+                        }
+                    }
+                }
+
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
@@ -54,8 +72,6 @@ namespace TechBot
             else if (message.Type == ActivityTypes.Ping)
             {
             }
-
-            return null;
         }
     }
 }

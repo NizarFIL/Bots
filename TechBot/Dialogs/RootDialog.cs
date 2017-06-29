@@ -11,21 +11,18 @@ namespace TechBot.Dialogs
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
-
             return Task.CompletedTask;
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
-            string userName = activity.From.Name;
-            string firstName = userName.Substring(userName.LastIndexOf(',') + 1);
 
             // calculate something for us to return
             int length = (activity.Text ?? string.Empty).Length;
             
             // return our reply to the user
-            await context.PostAsync($"{firstName}, You sent {activity.Text} which was {length} characters");
+            await context.PostAsync($"You sent {activity.Text} which was {length} characters");
 
             context.Wait(MessageReceivedAsync);
         }
