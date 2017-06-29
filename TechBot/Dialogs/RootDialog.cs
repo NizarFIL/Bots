@@ -48,7 +48,7 @@ namespace TechBot.Dialogs
 
             //Get Quota
             var client = new WebClient();
-            var url = "https://bot.tadpolelab.com:8443/SmartObjectServices/rest/Test/TestingSMO/Load?ID=" + activity.Text;
+            var url = "https://bot.tadpolelab.com:8443/SmartObjectServices/rest/Test/TestingSMO/Load?ID=1";
 
             client.Headers[HttpRequestHeader.ContentType] = "application/xml";
             client.Headers[HttpRequestHeader.Authorization] = "Basic azItYm90XGxvY2FsYWRtaW46SzI0ZG0xbk4xejRyIQ=="; //k2-bot\localadmin; 
