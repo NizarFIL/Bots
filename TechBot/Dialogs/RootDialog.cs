@@ -19,12 +19,13 @@ namespace TechBot.Dialogs
         {
             var activity = await result as Activity;
             string userName = activity.From.Name;
+            string firstName = userName.Substring(userName.LastIndexOf(',') + 1);
 
             // calculate something for us to return
             int length = (activity.Text ?? string.Empty).Length;
             
             // return our reply to the user
-            await context.PostAsync($"{userName}, You sent {activity.Text} which was {length} characters");
+            await context.PostAsync($"{firstName}, You sent {activity.Text} which was {length} characters");
 
             context.Wait(MessageReceivedAsync);
         }
