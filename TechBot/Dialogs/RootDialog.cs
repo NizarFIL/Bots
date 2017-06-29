@@ -27,6 +27,12 @@ namespace TechBot.Dialogs
         {
             var message = await activity;
             await context.PostAsync("You want to increase quota");
+
+            //***************************
+
+            context.Call(new MailboxQuotaDialog(), ResumeAfterOptionDialog);
+
+            //***************************
             context.Wait(this.MessageReceived);
         }
 
@@ -36,6 +42,22 @@ namespace TechBot.Dialogs
             var message = await activity;
             await context.PostAsync("You want to access an online meeting");
             context.Wait(this.MessageReceived);
+        }
+
+        private async Task ResumeAfterOptionDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            try
+            {
+                var message = await result;
+            }
+            catch (Exception ex)
+            {
+                await context.PostAsync($"Failed with message: {ex.Message}");
+            }
+            finally
+            {
+                context.Wait(MessageReceived);
+            }
         }
     }
 }
