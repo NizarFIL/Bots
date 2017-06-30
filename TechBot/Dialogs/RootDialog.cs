@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace TechBot.Dialogs
 {
-    [LuisModel("2bea3bc7-d2d3-4301-a620-faa223c361af", "d81d38f1310c4b60b72d72256518a80d")]
+    [LuisModel("e7b5f21e-222a-41e3-aee9-07909a845e6a", "09775384b50d489e8d33906f8aa00fa8")]
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
