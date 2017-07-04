@@ -15,9 +15,8 @@ namespace TechBot.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(MessageReceivedAsync);
             await context.PostAsync("Hi! I'm Botty. I do not do much now, but I'll reply with a random number when you send me a message.");
-            //return Task.CompletedTask;
+            context.Wait(MessageReceivedAsync);
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
