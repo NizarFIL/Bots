@@ -16,7 +16,7 @@ namespace TechBot.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Hi! I'm Botty. I do not do much now, but I'll reply with a random number when you send me a message.");
+            await context.PostAsync("Hi! I'm Botty. I do not do much now, but ask me anything about Vodafone");
             context.Wait(MessageReceivedAsync);
         }
 
