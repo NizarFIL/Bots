@@ -53,22 +53,24 @@ namespace TechBot.Dialogs
                 client.Headers.Add("Ocp-Apim-Subscription-Key", qnamakerSubscriptionKey);
                 client.Headers.Add("Content-Type", "application/json");
                 responseString = client.UploadString(builder.Uri, postBody);
+                QnAMakerResult response;
+                try
+                {
+                    response = JsonConvert.DeserializeObject<QnAMakerResult>(responseString);
+                }
+                catch
+                {
+                    throw new Exception("Unable to deserialize QnA Maker response string.");
+                }
+                await context.PostAsync($"{response}");
             }
 
-            QnAMakerResult response;
-            try
-            {
-                response = JsonConvert.DeserializeObject<QnAMakerResult>(responseString);
-            }
-            catch
-            {
-                throw new Exception("Unable to deserialize QnA Maker response string.");
-            }
+            
 
             //**************************
 
             // return our reply to the user
-            await context.PostAsync($"{response}");
+            
 
             context.Wait(MessageReceivedAsync);
         }
