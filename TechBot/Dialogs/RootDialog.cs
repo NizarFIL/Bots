@@ -57,12 +57,13 @@ namespace TechBot.Dialogs
                 try
                 {
                     response = JsonConvert.DeserializeObject<QnAMakerResult>(responseString);
+                    string answer = response.Answer.ToString();
                 }
                 catch
                 {
                     throw new Exception("Unable to deserialize QnA Maker response string.");
                 }
-                await context.PostAsync($"{response}");
+                await context.PostAsync($"{answer}");
             }
 
             
